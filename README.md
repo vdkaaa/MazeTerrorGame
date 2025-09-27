@@ -50,3 +50,30 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
 - Default asset instances stored in `Data/ScriptableObjects/`.  
 
 ---
+
+## ✅ Day 2 – Definition of Done (HUD wireframe)
+
+---
+### 🎨 HUD (event-driven, desacoplado)
+- `Canvas_HUD` creado (Screen Space – Overlay) y guardado como **prefab** en  
+  `Assets/_Project/Prefabs/UI/HUD/Canvas_HUD.prefab`.
+- Estructura:
+  - `Panel_Player` → `BatteryBar`, `HealthBar` (sliders normalizados 0..1).
+  - `Panel_Time` → `ClockText` (mm:ss).
+  - `Panel_Prompts` → `PromptText`.
+- Scripts de widgets agregados:
+  - `UIBattery`, `UIHealth`, `UITime`, `UIPrompt`.
+- `UIManager` suscrito a `IEventBus`; actualiza widgets mediante eventos.
+- DTOs de eventos creados:
+  - `BatteryChanged(float normalized)`
+  - `HealthChanged(float current, float max)`
+  - `TimeTick(int minutes, int seconds)`
+  - `ShowPrompt(string message, float duration)`
+- **HUDEventSimulator** en escena (solo dev): publica eventos para prueba.
+- Verificación:
+  - Barras/textos se actualizan **con eventos simulados**.
+  - `UIManager` **no** referencia Player ni lógica de juego (solo `IEventBus`).
+  - Prefab sin referencias rotas en el Inspector.
+
+
+---
