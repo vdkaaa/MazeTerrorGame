@@ -30,6 +30,12 @@ namespace Project.Gameplay.Player
 
             // Correr (LeftShift) — se lo informamos al movimiento
             movement.SetRun(Input.GetKey(KeyCode.LeftShift));
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                var fl = movement.GetComponent<PlayerFlashlight>();
+                if (fl) fl.Toggle();
+            }
         }
     }
 }
