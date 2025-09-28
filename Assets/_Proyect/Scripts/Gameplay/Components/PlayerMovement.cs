@@ -10,35 +10,50 @@ namespace Project.Gameplay.Player
         [SerializeField] private float runSpeed = 6.0f;
         [SerializeField] private float gravity = -9.81f;
         [SerializeField] private float mouseSensitivity = 1.0f;
+        [SerializeField] private float pitchClamp = 85f; // límite de mirar arriba/abajo
 
         private CharacterController _cc;
         private Transform _cameraRig;
 
-        private Vector2 _move; // input x,y
-        private Vector2 _look; // mouse dx,dy
+        private Vector2 _move;       // input x,y
+        private Vector2 _look;       // mouse dx,dy
+        private bool _isRunning;     // lo setea el bridge
         private float _verticalVelocity;
+        private float _pitch;        // acumulado para cámara (X)
 
         private void Awake()
         {
             _cc = GetComponent<CharacterController>();
             _cameraRig = transform.Find("CameraRig");
+            if (_cameraRig == null) Debug.LogWarning("[PlayerMovement] CameraRig no encontrado (esperado como hijo).");
+            // Opcional: bloquear el cursor para mirar con mouse
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         // IMovable
         public void SetMoveInput(float x, float y) => _move = new Vector2(x, y);
         public void SetLookInput(float dx, float dy) => _look = new Vector2(dx, dy);
+        public void SetRun(bool isRunning) => _isRunning = isRunning;
 
         private void Update()
         {
-            // Rotación horizontal con mouse
+            // Rotación horizontal del cuerpo (yaw)
             transform.Rotate(Vector3.up, _look.x * mouseSensitivity);
 
+            // Rotación vertical de la cámara (pitch, con clamp)
+            if (_cameraRig)
+            {
+                _pitch = Mathf.Clamp(_pitch - _look.y * mouseSensitivity, -pitchClamp, pitchClamp);
+                _cameraRig.localEulerAngles = new Vector3(_pitch, 0f, 0f);
+            }
+
             // Movimiento en plano
-            Vector3 dir = (transform.right * _move.x + transform.forward * _move.y);
-            float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
+            Vector3 dir = (transform.right * _move.x + transform.forward * _move.y).normalized;
+            float speed = _isRunning ? runSpeed : walkSpeed;
 
             // Gravedad simple
-            if (_cc.isGrounded && _verticalVelocity < 0) _verticalVelocity = -1f;
+            if (_cc.isGrounded && _verticalVelocity < 0f) _verticalVelocity = -1f;
             _verticalVelocity += gravity * Time.deltaTime;
 
             Vector3 vel = dir * speed + Vector3.up * _verticalVelocity;
