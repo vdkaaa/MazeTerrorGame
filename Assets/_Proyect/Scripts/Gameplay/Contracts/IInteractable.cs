@@ -1,9 +1,8 @@
-namespace Project.Gameplay.Player
+﻿namespace Project.Gameplay.Interaction
 {
     public interface IInteractable
     {
-        void Interact();    // ejecutar acci�n
-        string Prompt();    // texto breve para UI
+        string Prompt();                          // Texto para HUD
+        void Interact(UnityEngine.GameObject interactor); // Quién interactúa (Player u otro)
     }
 }
- 
