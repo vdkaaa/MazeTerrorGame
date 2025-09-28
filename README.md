@@ -84,3 +84,57 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
 - Verified scene smoke test: player can walk the layout; HUD still updates via events.
 
 ---
+
+## ✅ Day 3 – Definition of Done
+
+### 🎮 Player Movement
+- Implemented **DevPlayerInputBridge** to feed input (WASD, mouse, Shift) into `PlayerMovement`.
+- Refactored `PlayerMovement`:
+  - Uses setters (`SetMoveInput`, `SetLookInput`, `SetRun`) instead of direct Input calls.
+  - Added camera pitch rotation with clamped vertical look.
+  - Cursor lock enabled during Play mode.
+- Player can now walk and look around the labyrinth graybox.
+
+---
+
+### 🔦 Flashlight System
+- Created `PlayerFlashlight` component:
+  - Toggle on/off with **F** key.
+  - Consumes battery over time (`drainPerSecond`).
+  - Publishes `BatteryChanged` events to EventBus.
+  - Auto-disables when battery is depleted.
+- Integrated with HUD: battery bar now reflects real flashlight usage.
+
+---
+
+### ❤️ Health System
+- Implemented `PlayerHealth` component:
+  - Supports `TakeDamage` and `Heal`.
+  - Publishes `HealthChanged` events to EventBus.
+- Added `HUDHotkeys` (dev helper):
+  - `H` → Take damage (-10).
+  - `J` → Heal (+10).
+  - `B` → Add battery (+10%).
+  - `P` → Show prompt (“Picked up battery”).
+- HUD health bar now responds to real player health.
+
+---
+
+### ⏱️ Time Manager
+- Created `TimeManager` service:
+  - Implements `ITimeService`.
+  - Publishes `TimeTick` events every second.
+- HUD clock updates automatically (mm:ss) during play.
+- Removed reliance on `HUDEventSimulator` for time events.
+
+---
+
+### 🧪 Integration & Testing
+- Verified full event-driven loop:
+  - Walking and running work with WASD + Shift.
+  - Flashlight drains battery; HUD battery bar reflects.
+  - Health bar updates on damage/heal.
+  - Clock runs in real time from 00:00.
+  - Prompts display via dev hotkeys.
+- Confirmed UI remains **decoupled** from gameplay scripts (uses only EventBus).
+
