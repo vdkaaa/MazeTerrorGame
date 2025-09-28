@@ -75,5 +75,12 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - `UIManager` **no** referencia Player ni lógica de juego (solo `IEventBus`).
   - Prefab sin referencias rotas en el Inspector.
 
+### 🏗️ Level (Graybox + NavMesh + Anchors)
+- Built initial graybox with modular **Room_A**, **Corridor_Straight**, and **Door_Generic** prefabs.
+- Marked environment geometry as **Static** and placed under `Level/LabyrinthRoot`.
+- Added **NavMeshSurface** (layer mask: Environment) and baked navigation mesh.
+- Created **Anchors** for Puzzle, Loot, and Enemy spawns with editor **gizmos** (color-coded).
+- Configured **Layers & Masks** (Environment, Interactable, Player, Enemy, Triggers).
+- Verified scene smoke test: player can walk the layout; HUD still updates via events.
 
 ---
