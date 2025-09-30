@@ -54,5 +54,13 @@ namespace Project.Gameplay.Player
             battery = Mathf.Clamp01(battery + amount01);
             PublishBattery();
         }
+
+
+        public void SetBattery01(float t)
+        {
+            battery = Mathf.Clamp01(t);
+            PublishBattery();
+        }
+
     }
 }
