@@ -30,7 +30,16 @@ namespace Project.Core.Services.Save
 
             // Carga el último slot usado (si existe)
             _activeIdx = Mathf.Clamp(PlayerPrefs.GetInt(LAST_SLOT_KEY, 0), 0, slots.Length - 1);
+
+
+            // al inicio (Awake), después de calcular _activeIdx:
             Announce($"Active slot: {slots[_activeIdx]} (F1/F2/F3)");
+            _bus?.Publish(new SaveSlotChanged(slots[_activeIdx]));
+
+            // en SetActiveSlot(int idx), al final:
+            Announce($"Active slot: {slots[_activeIdx]}");
+            _bus?.Publish(new SaveSlotChanged(slots[_activeIdx]));
+
         }
 
         private void Update()
@@ -84,6 +93,6 @@ namespace Project.Core.Services.Save
             Announce($"Deleted slot {ActiveSlotId()}");
         }
 
-        private void Announce(string msg) => _bus?.Publish(new ShowPrompt(msg, 1.2f));
+        private void Announce(string msg) => _bus?.Publish(new SaveSlotChanged(msg));
     }
 }

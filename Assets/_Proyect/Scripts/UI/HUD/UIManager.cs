@@ -11,7 +11,7 @@ namespace Project.UI.HUD
         [SerializeField] private UIHealth health;
         [SerializeField] private UITime uiTime;
         [SerializeField] private UIPrompt prompt;
-
+        [SerializeField] private UISaveSlotIndicator slotIndicator;
         private IEventBus _bus;
 
         private void Awake()
@@ -28,6 +28,7 @@ namespace Project.UI.HUD
             _bus.Subscribe<HealthChanged>(OnHealth);
             _bus.Subscribe<TimeTick>(OnTime);
             _bus.Subscribe<ShowPrompt>(OnPrompt);
+            _bus.Subscribe<SaveSlotChanged>(OnSlotChanged);
         }
 
         private void OnDisable()
@@ -37,6 +38,7 @@ namespace Project.UI.HUD
             _bus.Unsubscribe<HealthChanged>(OnHealth);
             _bus.Unsubscribe<TimeTick>(OnTime);
             _bus.Unsubscribe<ShowPrompt>(OnPrompt);
+            _bus.Unsubscribe<SaveSlotChanged>(OnSlotChanged);
         }
 
         private void OnBattery(BatteryChanged e) => battery?.SetValue(e.normalized);
@@ -47,5 +49,6 @@ namespace Project.UI.HUD
             if (e.duration > 0f) prompt?.Show(e.message, e.duration);
             else prompt?.Show(e.message);
         }
+        private void OnSlotChanged(SaveSlotChanged e) => slotIndicator?.SetSlot(e.slotId);
     }
 }
