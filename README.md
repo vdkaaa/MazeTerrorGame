@@ -138,3 +138,65 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - Prompts display via dev hotkeys.
 - Confirmed UI remains **decoupled** from gameplay scripts (uses only EventBus).
 
+
+
+## ✅ Day 4 – Definition of Done  
+
+### Enemy Dummy  
+- **Scripts implementados** en `Scripts/Gameplay/Enemy/`:  
+  - `EnemyBase` → encapsula NavMeshAgent, referencias y parámetros de daño.  
+  - `EnemyChase` → lógica mínima de persecución del Player.  
+  - `EnemyDamageZone` → trigger que aplica daño periódico al Player usando cooldown.  
+
+- **Prefab creado** en `Prefabs/Enemies/EnemyDummy`:  
+  - Raíz con `NavMeshAgent`, `EnemyBase` y `EnemyChase`.  
+  - Hijo `DamageZone` con `SphereCollider (isTrigger)` + `EnemyDamageZone`.  
+  - Material rojo para visualización rápida.  
+
+- **Integración en escena** `Labyrinth_Prototype`:  
+  - Bake de NavMesh para laberinto.  
+  - Enemigos colocados en puntos de prueba.  
+  - Player reconocido automáticamente por `EnemyBase`.  
+
+- **Comportamiento validado**:  
+  - Enemigo patrulla el NavMesh y **persigue al Player**.  
+  - Al contacto, reduce la **barra de vida** del HUD vía eventos de `PlayerHealth`.  
+  - Daño respeta **cooldown** para evitar spam.  
+  - Sin errores en consola; el agente no se queda atascado en geometría del laberinto.  
+
+---
+
+### Save & Load System  
+- **GameState DTO** definido en `Scripts/Core/Services/Save/GameState.cs`:  
+  - Guarda salud, batería, posición y orientación del Player.  
+
+- **PlayerPrefsSaveService**:  
+  - Serializa el `GameState` en JSON y lo guarda/carga en PlayerPrefs.  
+  - Métodos `SaveGame`, `TryLoadGame`, `DeleteSave`.  
+
+- **PlayerStateAdapter**:  
+  - Lee datos de `PlayerHealth` y `PlayerFlashlight`.  
+  - Aplica estado al Player al cargar, publicando eventos al HUD.  
+
+- **SaveLoadController**:  
+  - Hotkeys: `F5` para guardar, `F9` para cargar.  
+  - Mensajes de feedback en HUD usando `UIPrompt`.  
+  - Cooldown para evitar spam de teclas.  
+
+- **Multi–slot support (F1/F2/F3)**:  
+  - `SaveLoadControllerMulti` permite seleccionar slot activo con F1/F2/F3.  
+  - Guarda/carga con F5/F9 en el slot activo.  
+  - Persiste el último slot seleccionado.  
+
+- **HUD Overlay**:  
+  - `UISaveSlotIndicator` muestra el slot actual en la esquina.  
+  - Actualiza vía evento `SaveSlotChanged`.  
+  - Incluye animación de fade-in/out al cambiar de slot.  
+
+- **Comportamiento validado**:  
+  - `F1/F2/F3` cambian de slot y lo anuncian en el HUD.  
+  - `F5` guarda estado (salud, batería, posición).  
+  - `F9` carga estado y el HUD refleja los cambios.  
+  - Sin errores en consola; guarda/carga funcionando en todos los slots.  
+
+
