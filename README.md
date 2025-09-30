@@ -143,60 +143,61 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
 ## ✅ Day 4 – Definition of Done  
 
 ### Enemy Dummy  
-- **Scripts implementados** en `Scripts/Gameplay/Enemy/`:  
-  - `EnemyBase` → encapsula NavMeshAgent, referencias y parámetros de daño.  
-  - `EnemyChase` → lógica mínima de persecución del Player.  
-  - `EnemyDamageZone` → trigger que aplica daño periódico al Player usando cooldown.  
+- **Implemented scripts** in `Scripts/Gameplay/Enemy/`:  
+  - `EnemyBase` → encapsulates NavMeshAgent, references, and damage parameters.  
+  - `EnemyChase` → minimal chase logic towards the Player.  
+  - `EnemyDamageZone` → trigger that applies periodic damage to the Player with cooldown.  
 
-- **Prefab creado** en `Prefabs/Enemies/EnemyDummy`:  
-  - Raíz con `NavMeshAgent`, `EnemyBase` y `EnemyChase`.  
-  - Hijo `DamageZone` con `SphereCollider (isTrigger)` + `EnemyDamageZone`.  
-  - Material rojo para visualización rápida.  
+- **Created prefab** in `Prefabs/Enemies/EnemyDummy`:  
+  - Root with `NavMeshAgent`, `EnemyBase`, and `EnemyChase`.  
+  - Child `DamageZone` with `SphereCollider (isTrigger)` + `EnemyDamageZone`.  
+  - Red material for quick visualization.  
 
-- **Integración en escena** `Labyrinth_Prototype`:  
-  - Bake de NavMesh para laberinto.  
-  - Enemigos colocados en puntos de prueba.  
-  - Player reconocido automáticamente por `EnemyBase`.  
+- **Scene integration** in `Labyrinth_Prototype`:  
+  - NavMesh baked for the labyrinth.  
+  - Enemy prefabs placed at test anchors.  
+  - Player automatically recognized by `EnemyBase`.  
 
-- **Comportamiento validado**:  
-  - Enemigo patrulla el NavMesh y **persigue al Player**.  
-  - Al contacto, reduce la **barra de vida** del HUD vía eventos de `PlayerHealth`.  
-  - Daño respeta **cooldown** para evitar spam.  
-  - Sin errores en consola; el agente no se queda atascado en geometría del laberinto.  
+- **Validated behavior**:  
+  - Enemy patrols the NavMesh and **chases the Player**.  
+  - On contact, reduces the Player’s **Health bar** via `PlayerHealth` events.  
+  - Damage respects **cooldown** to avoid spamming.  
+  - No console errors; agent does not get stuck in the maze geometry.  
 
 ---
 
 ### Save & Load System  
-- **GameState DTO** definido en `Scripts/Core/Services/Save/GameState.cs`:  
-  - Guarda salud, batería, posición y orientación del Player.  
+- **GameState DTO** defined in `Scripts/Core/Services/Save/GameState.cs`:  
+  - Stores Player health, max health, flashlight battery, position, and orientation.  
 
 - **PlayerPrefsSaveService**:  
-  - Serializa el `GameState` en JSON y lo guarda/carga en PlayerPrefs.  
-  - Métodos `SaveGame`, `TryLoadGame`, `DeleteSave`.  
+  - Serializes `GameState` into JSON and stores/loads it via PlayerPrefs.  
+  - Methods: `SaveGame`, `TryLoadGame`, `DeleteSave`.  
 
 - **PlayerStateAdapter**:  
-  - Lee datos de `PlayerHealth` y `PlayerFlashlight`.  
-  - Aplica estado al Player al cargar, publicando eventos al HUD.  
+  - Reads data from `PlayerHealth` and `PlayerFlashlight`.  
+  - Applies state back to the Player on load, publishing events for the HUD.  
 
 - **SaveLoadController**:  
-  - Hotkeys: `F5` para guardar, `F9` para cargar.  
-  - Mensajes de feedback en HUD usando `UIPrompt`.  
-  - Cooldown para evitar spam de teclas.  
+  - Hotkeys: `F5` to save, `F9` to load.  
+  - Feedback messages shown in HUD via `UIPrompt`.  
+  - Includes cooldown to prevent spam.  
 
 - **Multi–slot support (F1/F2/F3)**:  
-  - `SaveLoadControllerMulti` permite seleccionar slot activo con F1/F2/F3.  
-  - Guarda/carga con F5/F9 en el slot activo.  
-  - Persiste el último slot seleccionado.  
+  - `SaveLoadControllerMulti` allows switching the active slot with F1/F2/F3.  
+  - Saves/loads to the currently active slot using F5/F9.  
+  - Remembers the last active slot across sessions.  
 
 - **HUD Overlay**:  
-  - `UISaveSlotIndicator` muestra el slot actual en la esquina.  
-  - Actualiza vía evento `SaveSlotChanged`.  
-  - Incluye animación de fade-in/out al cambiar de slot.  
+  - `UISaveSlotIndicator` displays the active slot in the corner.  
+  - Updates via the `SaveSlotChanged` event.  
+  - Includes fade-in/out animation when switching slots.  
 
-- **Comportamiento validado**:  
-  - `F1/F2/F3` cambian de slot y lo anuncian en el HUD.  
-  - `F5` guarda estado (salud, batería, posición).  
-  - `F9` carga estado y el HUD refleja los cambios.  
-  - Sin errores en consola; guarda/carga funcionando en todos los slots.  
+- **Validated behavior**:  
+  - `F1/F2/F3` switch active save slots and announce in the HUD.  
+  - `F5` saves Player state (health, battery, position).  
+  - `F9` loads Player state and the HUD reflects the changes.  
+  - No console errors; save/load works across multiple slots.  
+
 
 
