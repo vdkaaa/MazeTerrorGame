@@ -1930,6 +1930,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas_HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 1806240711851809958, guid: 7695c50b1d7b92047bbd2ed7a737f089, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 324.127
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806240711851809958, guid: 7695c50b1d7b92047bbd2ed7a737f089, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 102.139
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806240711851809958, guid: 7695c50b1d7b92047bbd2ed7a737f089, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 212.063
+      objectReference: {fileID: 0}
+    - target: {fileID: 1806240711851809958, guid: 7695c50b1d7b92047bbd2ed7a737f089, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -326.07
+      objectReference: {fileID: 0}
     - target: {fileID: 3469640197974465081, guid: 7695c50b1d7b92047bbd2ed7a737f089, type: 3}
       propertyPath: eventBusSource
       value: 
