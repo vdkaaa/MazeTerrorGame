@@ -200,4 +200,40 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - No console errors; save/load works across multiple slots.  
 
 
+## ✅ Day 5 – Definition of Done  
+
+### Inventory & Key–Locked Door System  
+
+- **PlayerInventory** extended:  
+  - Added `HasItem(string id)` to check if the player owns an item.  
+  - Added `GetAllItems()` and `LoadFromList(List<string>)` for future Save/Load support.  
+
+- **KeyItemPickup** script & prefab:  
+  - Collectible object that adds a key (e.g., `"RedKey"`) to the player’s inventory.  
+  - Publishes a `ShowPrompt` event (e.g., `"Picked up RedKey"`) for HUD feedback.  
+  - Prefab created with collider + visuals.  
+
+- **LockedDoor** script & prefab:  
+  - Door requires a specific key (`requiredKeyId`) before it can be opened.  
+  - Without the key → publishes `"The door is locked"`.  
+  - With the key → unlocks and forwards to the door mechanics.  
+  - HUD prompts fully integrated.  
+
+- **DoorJoint** mechanics updated:  
+  - Controlled via `Toggle()` / `Open()` / `Close()`.  
+  - Uses Unity’s `HingeJoint` motor for smooth physical opening/closing.  
+  - Starts locked by default (`IsLocked = true`).  
+  - No longer bypasses lock when interacted directly.  
+
+- **Scene integration** (`Labyrinth_Prototype`):  
+  - A `KeyItemPickup` placed in the level.  
+  - A `LockedDoor` blocks progression further inside the maze.  
+  - Player cannot open the door without the key.  
+  - After picking up the key, the door unlocks and opens correctly.  
+
+- **Validation**:  
+  - Prompts appear on HUD while looking at the door or picking up items.  
+  - Door cannot be opened without the key.  
+  - Once unlocked, door behaves consistently with hinge physics.  
+  - No errors in console; interaction flow tested end-to-end.  
 

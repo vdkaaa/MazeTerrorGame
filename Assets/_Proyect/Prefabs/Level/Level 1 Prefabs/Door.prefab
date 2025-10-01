@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 121232855077096200}
   - component: {fileID: 742354588793190986}
   - component: {fileID: 7809131539287638844}
+  - component: {fileID: 7850088961700479458}
   - component: {fileID: 2607407432249611557}
   - component: {fileID: 585425190295878080}
   m_Layer: 6
@@ -102,6 +103,21 @@ HingeJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7850088961700479458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5808938625520281518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6de22cf0def41642b0059376ed9b085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prompt: Press E to interact
+  requiredKeyId: RedKey
+  door: {fileID: 2607407432249611557}
 --- !u!114 &2607407432249611557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +134,7 @@ MonoBehaviour:
   openVelocity: 90
   closeVelocity: -90
   motorForce: 100
+  IsLocked: 0
 --- !u!65 &585425190295878080
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Project.Gameplay.Player;
 using Project.Core.Events.DTOs;
+using System.Collections.Generic;
 
 namespace Project.Core.Services.Save
 {
@@ -9,6 +10,7 @@ namespace Project.Core.Services.Save
         [Header("Refs")]
         private PlayerHealth health;
         private PlayerFlashlight flashlight;
+        private PlayerInventory inventory;
         [SerializeField] private Transform playerRoot;
         [SerializeField] private MonoBehaviour eventBusSource; // EventBus para refrescar HUD
 
@@ -21,8 +23,9 @@ namespace Project.Core.Services.Save
         }
         private void Start()
         {
-           health = GetComponent<PlayerHealth>();
-           flashlight = GetComponent<PlayerFlashlight>();
+            health = GetComponent<PlayerHealth>();
+            flashlight = GetComponent<PlayerFlashlight>();
+            inventory = GetComponent<PlayerInventory>();
         }
         public GameState Read()
         {
@@ -32,12 +35,14 @@ namespace Project.Core.Services.Save
                 playerMaxHealth = health ? health.Max : 100f,
                 flashlightBattery01 = flashlight ? flashlight.BatteryNormalized() : 1f,
                 playerPosition = playerRoot.position,
-                playerForward = playerRoot.forward
+                playerForward = playerRoot.forward,
+                inventoryItems=inventory ? inventory.GetAllItems() : new List<string>(),
             };
         }
 
         public void Apply(GameState s)
         {
+            //PLAYER POS
             if (playerRoot)
             {
                 playerRoot.position = s.playerPosition;
@@ -49,7 +54,7 @@ namespace Project.Core.Services.Save
                         playerRoot.rotation = Quaternion.LookRotation(f.normalized, Vector3.up);
                 }
             }
-
+            //PLAYER HEALTH 
             if (health)
             {
                 health.SetMax(s.playerMaxHealth);   // agrega SetMax en PlayerHealth si aún no existe
@@ -57,10 +62,17 @@ namespace Project.Core.Services.Save
                 _bus?.Publish(new HealthChanged(health.Current, health.Max));
             }
 
+            //FLASHLIGHT
             if (flashlight)
             {
                 flashlight.SetBattery01(s.flashlightBattery01);
                 _bus?.Publish(new BatteryChanged(s.flashlightBattery01));
+            }
+
+            //PLAYER INVENTORY
+            if (inventory != null)
+            {
+                inventory.LoadFromList(s.inventoryItems);
             }
         }
     }
