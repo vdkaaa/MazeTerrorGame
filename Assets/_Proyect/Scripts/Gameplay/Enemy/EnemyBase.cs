@@ -7,42 +7,58 @@ namespace Project.Gameplay.Enemy
     public class EnemyBase : MonoBehaviour
     {
         [Header("Refs")]
-        [SerializeField] private Transform target; // Player (si no asignas, lo encuentra en Awake)
+        [SerializeField] private Transform target; // Player transform (auto-discover if null)
+        public Transform Target => target;
 
         [Header("Movement")]
-        [SerializeField] private float chaseSpeed = 3.2f;
-        [SerializeField] private float stoppingDistance = 1.2f;
-
-        [Header("Combat")]
-        [SerializeField] private float damage = 10f;
-        [SerializeField] private float attackCooldown = 1.5f;
+        public float patrolSpeed = 2.2f;
+        public float chaseSpeed = 3.6f;
+        public float stoppingDistance = 1.2f;
 
         [Header("Detection")]
-        [SerializeField] private float detectionRange = 50f; // por ahora siempre te ve
+        public float loseTargetDelay = 2.0f; // time to return to patrol after losing player
+
+        [Header("Combat")]
+        private float damage = 10f;
+        private float attackCooldown = 1.5f;
 
         public NavMeshAgent Agent { get; private set; }
-        public Transform Target => target;
-        public float Damage => damage;
-        public float AttackCooldown => attackCooldown;
-        public float StoppingDistance => stoppingDistance;
-        public float DetectionRange => detectionRange;
+        public EnemyState CurrentState { get; private set; } = EnemyState.Idle;
+        public float Damage { get => damage; }
+        public float AttackCooldown { get => attackCooldown; }
+
+        float _loseTimer;
 
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
-            Agent.speed = chaseSpeed;
-            Agent.stoppingDistance = stoppingDistance;
             Agent.updateRotation = true;
             Agent.updateUpAxis = true;
 
             if (target == null)
             {
-                // Busca un PlayerHealth en escena y toma su transform raíz
                 var ph = Object.FindFirstObjectByType<Project.Gameplay.Player.PlayerHealth>();
                 if (ph) target = ph.transform;
             }
         }
 
-        public bool HasTarget => target != null;
+
+
+        public void SetState(EnemyState s)
+        {
+            if (CurrentState == s) return;
+            CurrentState = s;
+            // speed per state
+            Agent.speed = (s == EnemyState.Chase) ? chaseSpeed : patrolSpeed;
+        }
+
+        public void ResetLoseTimer() => _loseTimer = loseTargetDelay;
+
+        public bool TickLoseTimer(float dt)
+        {
+            if (CurrentState != EnemyState.Chase) return false;
+            _loseTimer -= dt;
+            return _loseTimer <= 0f;
+        }
     }
 }
