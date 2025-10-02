@@ -237,3 +237,45 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - Once unlocked, door behaves consistently with hinge physics.  
   - No errors in console; interaction flow tested end-to-end.  
 
+
+## ✅ Day 6 – Definition of Done  
+
+### Enemy Patrol & Chase FSM  
+
+- **EnemyState enum** added (`Idle`, `Patrol`, `Chase`) to formalize enemy logic.  
+
+- **EnemyBase** extended:  
+  - Holds reference to `NavMeshAgent` and target Player.  
+  - Added `SetState()` to switch speed and behavior based on state.  
+  - Implements lose-target timer to return from `Chase` to `Patrol`.  
+
+- **EnemyDetector** component:  
+  - Uses a `SphereCollider` trigger to detect Player presence.  
+  - Optional line-of-sight raycast check from “eye” transform.  
+  - Publishes detection info to EnemyBase.  
+
+- **EnemyPatrol** component:  
+  - Handles waypoint navigation (loop or ping-pong).  
+  - Draws Gizmos for patrol paths in the editor.  
+  - Works independently of chase logic.  
+
+- **EnemyChaseFSM** component:  
+  - Listens to `EnemyDetector`.  
+  - Transitions Patrol → Chase when Player detected.  
+  - Publishes HUD prompt `"Enemy spotted you!"` when switching to Chase.  
+  - Returns to Patrol if Player escapes for configured delay.  
+
+- **Prefab: EnemyPatroller**  
+  - Created from EnemyDummy.  
+  - Added Detector child with SphereCollider + EnemyDetector.  
+  - Added EnemyPatrol and EnemyChaseFSM scripts.  
+  - Waypoints set up in `Labyrinth_Prototype`.  
+
+- **Validated behavior**:  
+  - Enemy starts patrolling between waypoints.  
+  - Enters Chase state when Player enters detection range.  
+  - Displays HUD prompt `"Enemy spotted you!"`.  
+  - If Player escapes, enemy returns to patrol.  
+  - Still deals damage on contact via `EnemyDamageZone`.  
+  - No errors in console after initialization fix (NavMeshAgent correctly linked).  
+
