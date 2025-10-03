@@ -592,6 +592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 443558374110763885}
   - component: {fileID: 5110432379908510943}
+  - component: {fileID: 30766881379366660}
   - component: {fileID: 7289474829565385607}
   - component: {fileID: 7939284019831803638}
   - component: {fileID: 9213346737273041524}
@@ -648,6 +649,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &30766881379366660
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188138296358347372}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &7289474829565385607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +718,7 @@ MonoBehaviour:
   health: {fileID: 2681646389998628533}
   uiTime: {fileID: 2729343409900177050}
   prompt: {fileID: 5322578448535061713}
+  slotIndicator: {fileID: 0}
 --- !u!1 &1216863144702416216
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,7 +945,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: {fileID: 1496190579516376309}
   prefix: 'Slot: '
-  eventBusSource: {fileID: 0}
   group: {fileID: 5270669680004633485}
   fadeTime: 0.2
   visibleTime: 1.5

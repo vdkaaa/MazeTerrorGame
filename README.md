@@ -279,3 +279,25 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - Still deals damage on contact via `EnemyDamageZone`.  
   - No errors in console after initialization fix (NavMeshAgent correctly linked).  
 
+## ✅ Day 7 – Definition of Done
+
+### Inspectable Boxes + Screamer mechanic
+
+- Implemented `AimDetector` that detects when the player points the camera/flashlight at an object and holds for N seconds.
+- `InspectableBox` prefab:
+  - Can be a trap (`isTrap = true`) or contain the key (`keyPrefab`).
+  - When correctly examined, spawns the key or reveals a clue.
+  - When improperly interacted (not examined), triggers screamer behavior.
+- `ScreamerController`:
+  - Displays full-screen image and plays SFX.
+  - Optionally locks player controls for the screamer duration.
+- Key spawn & pickup:
+  - Key prefab integrates with `PlayerInventory` (AddItem) and HUD prompts.
+  - Key persists via existing Save/Load pipeline.
+- Scene:
+  - Room with multiple inspectable boxes; player must inspect to find the correct one to get the key.
+  - Prompts show when pointing at objects and when screamer triggers.
+- Validation:
+  - Player must point and hold to inspect the correct box to obtain the key.
+  - Triggering traps plays screamer image/audio and optionally blocks movement briefly.
+  - No console errors; interactions tested end-to-end.
