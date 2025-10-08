@@ -301,3 +301,67 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - Player must point and hold to inspect the correct box to obtain the key.
   - Triggering traps plays screamer image/audio and optionally blocks movement briefly.
   - No console errors; interactions tested end-to-end.
+
+# 🧩 Day 8 – Definition of Done (October 7)
+
+### 🎯 Context
+Today’s session focused on reviewing the current state of the project and identifying key architectural adjustments needed for better modularity and gameplay scalability.  
+The result was a clear list of technical improvements, configuration clean-ups, and new systems to implement during the next development stream.
+
+---
+
+### 🧠 Key Findings and Decisions
+- Player data must be reorganized and split into more specific ScriptableObjects.  
+- Refactoring is required in the **Player Movement** and **Input Bridge** systems.  
+- A new **Player Inventory** system will be implemented soon.  
+- The **Canvas/Screamer** logic requires cleanup and consistency.  
+- Anchors will be used strategically for enemy spawns, loot points, and puzzle triggers.
+
+---
+
+### 🧱 Tasks and Changes Identified
+
+#### 1. Player Config (SO)
+- Remove outdated or redundant data.  
+- Move **Player Health** into this ScriptableObject.  
+- Prepare integration hooks for the upcoming **Inventory System**.
+
+#### 2. Player Movement
+- Review dependencies with `Player Input Bridge`.  
+- Improve movement logic for future features (stamina, inventory weight, etc.).
+
+#### 3. Player Inventory (New System)
+- Create a modular base for item storage (batteries, keys, health items).  
+- Plan interaction with the HUD and pickup system.
+
+#### 4. Battery Config (Separate SO)
+- Extract battery configuration from `Player Config`.  
+- Define parameters for lifetime, drain rate, and recharge behavior.
+
+#### 5. Enemy Base
+- Link each enemy to its own `EnemyConfigSO`.  
+- Allow individual tuning for speed, detection radius, and aggression.
+
+#### 6. Aim Detector
+- Centralize tunable values in a dedicated Config SO (range, layers, etc.).  
+
+#### 7. Canvas / Screamer System
+- Review if the Screamer Canvas is intended for single or multiple events.  
+- Refactor for clarity and reuse across multiple screamers if necessary.
+
+#### 8. Anchors & Spawn Points
+- Create anchor prefabs for:
+  - Enemy spawn zones.  
+  - Loot (battery, health, items).  
+  - Puzzle triggers or interactables.
+
+#### 9. Puzzle Implementation (x2)
+- Begin implementing two base puzzle types.  
+- Define modular interfaces for interaction and event triggers.
+
+---
+
+### 🔍 Summary
+Day 8 focused on **structural refactoring and system alignment**.  
+The next development session will revolve around implementing the new configs and polishing the player core systems to achieve cleaner data management and more predictable gameplay flow.
+
