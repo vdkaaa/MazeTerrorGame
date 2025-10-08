@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Project.Gameplay.Player
 {
-    /// Puente de entrada de DEV: lee teclado/ratón y alimenta IMovable.
-    /// Mañana lo reemplazas por IInputService / Input System, pero hoy te permite caminar ya.
+    ///  IMovable.
+    /// Reemplazarlo IInputService / Input System
     public class DevPlayerInputBridge : MonoBehaviour
     {
-        [SerializeField] private PlayerMovement movement;  // arrástralo desde el PlayerRoot
+        [SerializeField] private PlayerMovement movement;  // arrastralo desde el PlayerRoot
         [SerializeField] private float lookMultiplier = 1.0f; // escala del mouse
 
         private void Reset()
@@ -28,7 +28,7 @@ namespace Project.Gameplay.Player
             float dy = Input.GetAxis("Mouse Y") * lookMultiplier;
             movement.SetLookInput(dx, dy);
 
-            // Correr (LeftShift) — se lo informamos al movimiento
+            // Correr (LeftShift) ï¿½ se lo informamos al movimiento
             movement.SetRun(Input.GetKey(KeyCode.LeftShift));
 
             if (Input.GetKeyDown(KeyCode.F))

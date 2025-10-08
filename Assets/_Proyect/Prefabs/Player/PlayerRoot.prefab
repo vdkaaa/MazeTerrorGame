@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1527005253275085079}
   - component: {fileID: 3446094181775419882}
   - component: {fileID: 4295244858641013273}
+  - component: {fileID: 2571724619830053885}
   m_Layer: 9
   m_Name: PlayerRoot
   m_TagString: Player
@@ -152,7 +153,7 @@ MonoBehaviour:
   lightComp: {fileID: 3026025442950645453}
   eventBusSource: {fileID: 0}
   battery: 1
-  drainPerSecond: 0.05
+  drainPerSecond: 0.01
   isOn: 0
 --- !u!114 &1527005253275085079
 MonoBehaviour:
@@ -196,6 +197,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRoot: {fileID: 3014895128288883794}
+  eventBusSource: {fileID: 0}
+--- !u!114 &2571724619830053885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357740264714836841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdeb2a440ddc4df43b716ac60a175f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredHold: 2
+  inspectableMask:
+    serializedVersion: 2
+    m_Bits: 64
+  maxDistance: 4
   eventBusSource: {fileID: 0}
 --- !u!1 &4230366138257868662
 GameObject:
