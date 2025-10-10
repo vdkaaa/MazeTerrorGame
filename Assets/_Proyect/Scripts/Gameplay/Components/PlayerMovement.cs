@@ -1,17 +1,16 @@
-﻿using UnityEngine;
+﻿using Project.Data;
+using UnityEngine;
 
 namespace Project.Gameplay.Player
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovement : MonoBehaviour, IMovable
     {
-        [Header("Tuning")]
-        [SerializeField] private float walkSpeed = 3.5f;
-        [SerializeField] private float runSpeed = 6.0f;
-        [SerializeField] private float gravity = -9.81f;
-        [SerializeField] private float mouseSensitivity = 1.0f;
-        [SerializeField] private float pitchClamp = 85f; // límite de mirar arriba/abajo
+        [Header("Player Config SO")]
+        [SerializeField] private PlayerConfig playerConfig;
 
+
+        [Header("CharacterController")]
         private CharacterController _cc;
         private Transform _cameraRig;
 
@@ -36,25 +35,28 @@ namespace Project.Gameplay.Player
         public void SetLookInput(float dx, float dy) => _look = new Vector2(dx, dy);
         public void SetRun(bool isRunning) => _isRunning = isRunning;
 
+        // Método para exponer la configuración
+        public PlayerConfig GetPlayerConfig() => playerConfig;
+
         private void Update()
         {
             // Rotación horizontal del cuerpo (yaw)
-            transform.Rotate(Vector3.up, _look.x * mouseSensitivity);
+            transform.Rotate(Vector3.up, _look.x * playerConfig.GetMouseSensitivity());
 
             // Rotación vertical de la cámara (pitch, con clamp)
             if (_cameraRig)
             {
-                _pitch = Mathf.Clamp(_pitch - _look.y * mouseSensitivity, -pitchClamp, pitchClamp);
+                _pitch = Mathf.Clamp(_pitch - _look.y * playerConfig.GetMouseSensitivity(), -playerConfig.GetPitchClamp(), playerConfig.GetPitchClamp());
                 _cameraRig.localEulerAngles = new Vector3(_pitch, 0f, 0f);
             }
 
             // Movimiento en plano
             Vector3 dir = (transform.right * _move.x + transform.forward * _move.y).normalized;
-            float speed = _isRunning ? runSpeed : walkSpeed;
+            float speed = _isRunning ? playerConfig.GetRunSpeed() : playerConfig.GetWalkSpeed();
 
             // Gravedad simple
             if (_cc.isGrounded && _verticalVelocity < 0f) _verticalVelocity = -1f;
-            _verticalVelocity += gravity * Time.deltaTime;
+            _verticalVelocity += playerConfig.GetGravity() * Time.deltaTime;
 
             Vector3 vel = dir * speed + Vector3.up * _verticalVelocity;
             _cc.Move(vel * Time.deltaTime);

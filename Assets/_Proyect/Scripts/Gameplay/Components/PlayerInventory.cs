@@ -1,35 +1,64 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Project.Core.Events.DTOs;
+using Project.Data;
+
 
 namespace Project.Gameplay.Player
 {
     public class PlayerInventory : MonoBehaviour, IInventory
     {
-        private readonly Dictionary<string, int> _items = new();
+        [Header("Data")]
+        [SerializeField] private ItemDatabase itemDatabase;
+        [Header("Player Config SO")]
+        [SerializeField] private PlayerConfig playerConfig;
+        [Header("Events")]
+        [SerializeField] private MonoBehaviour eventBusSource;
+        private IEventBus _bus;
 
+        private void Awake()
+        {
+            _bus = eventBusSource as IEventBus;
+        }
 
-        public bool HasItem(string id) => Count(id) > 0;
         public bool AddItem(string id, int amount = 1)
         {
-            if (!_items.ContainsKey(id)) _items[id] = 0;
-            _items[id] += amount;
-            // TODO: emitir evento InventoryChanged
+            if (itemDatabase.GetItem(id) == null) return false; // No existe el item
+
+            if (!playerConfig.GetItems().ContainsKey(id)) playerConfig.GetItems()[id] = 0;
+            playerConfig.GetItems()[id] += amount;
+            PublishInventoryChanged();
             return true;
         }
 
+        // ¡Aquí está la magia!
         public bool UseItem(string id)
         {
-            if (!_items.TryGetValue(id, out int count) || count <= 0) return false;
-            _items[id] = count - 1;
-            // TODO: emitir evento InventoryChanged
-            return true;
+            // Usamos TryGetValue para ser más eficientes y seguros
+            if (!playerConfig.GetItems().TryGetValue(id, out int currentAmount) || currentAmount <= 0)
+            {
+                return false;
+            }
+
+            var itemData = itemDatabase.GetItem(id);
+            if (itemData == null) return false;
+
+            // Llama al método Use() del ScriptableObject
+            if (itemData.Use(gameObject)) // 'gameObject' es el jugador que usa el item
+            {
+                playerConfig.GetItems()[id] = currentAmount - 1; // Descuenta el item solo si se usó con éxito
+                PublishInventoryChanged();
+                return true;
+            }
+
+            return false;
         }
 
 
         public List<string> GetAllItems()
         {
             var list = new List<string>();
-            foreach (var kvp in _items)
+            foreach (var kvp in playerConfig.GetItems())
             {
                 for (int i = 0; i < kvp.Value; i++)
                     list.Add(kvp.Key);
@@ -39,12 +68,18 @@ namespace Project.Gameplay.Player
 
         public void LoadFromList(List<string> items)
         {
-            _items.Clear();
+            playerConfig.GetItems().Clear();
             if (items == null) return;
             foreach (var id in items)
                 AddItem(id);
+            
+            // Publicamos el evento una sola vez al final, en lugar de en cada AddItem
+            PublishInventoryChanged();
         }
 
-        public int Count(string id) => _items.TryGetValue(id, out int c) ? c : 0;
+        private void PublishInventoryChanged()
+        {
+            _bus?.Publish(new InventoryChanged(playerConfig.GetItems()));
+        }
     }
 }

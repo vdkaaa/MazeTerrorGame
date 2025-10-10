@@ -2,14 +2,17 @@ using UnityEngine;
 using Project.Gameplay.Player;
 using Project.Core.Events.DTOs;
 using System.Collections.Generic;
+using Project.Data; 
 
 namespace Project.Core.Services.Save
 {
     public class PlayerStateAdapter : MonoBehaviour
     {
         [Header("Refs")]
-        private PlayerHealth health;
-        private PlayerFlashlight flashlight;
+
+        [SerializeField] private PlayerConfig playerConfig;
+        [SerializeField] private FlashlightConfig flashlightConfig;
+
         private PlayerInventory inventory;
         [SerializeField] private Transform playerRoot;
         [SerializeField] private MonoBehaviour eventBusSource; // EventBus para refrescar HUD
@@ -23,17 +26,15 @@ namespace Project.Core.Services.Save
         }
         private void Start()
         {
-            health = GetComponent<PlayerHealth>();
-            flashlight = GetComponent<PlayerFlashlight>();
             inventory = GetComponent<PlayerInventory>();
         }
         public GameState Read()
         {
             return new GameState
             {
-                playerHealth = health ? health.Current : 100f,
-                playerMaxHealth = health ? health.Max : 100f,
-                flashlightBattery01 = flashlight ? flashlight.BatteryNormalized() : 1f,
+                playerHealth = playerConfig.GetCurrentHealth(),
+                playerMaxHealth = playerConfig.GetMaxHealth(),
+                flashlightBattery01 = flashlightConfig.GetBattery(), // Asumiendo que GetBattery() devuelve un valor normalizado (0-1)
                 playerPosition = playerRoot.position,
                 playerForward = playerRoot.forward,
                 inventoryItems=inventory ? inventory.GetAllItems() : new List<string>(),
@@ -46,7 +47,7 @@ namespace Project.Core.Services.Save
             if (playerRoot)
             {
                 playerRoot.position = s.playerPosition;
-                // Orientación simple en Y:
+                // Orientaciï¿½n simple en Y:
                 if (s.playerForward.sqrMagnitude > 0.001f)
                 {
                     var f = s.playerForward; f.y = 0f;
@@ -55,17 +56,17 @@ namespace Project.Core.Services.Save
                 }
             }
             //PLAYER HEALTH 
-            if (health)
+            if (playerConfig)
             {
-                health.SetMax(s.playerMaxHealth);   // agrega SetMax en PlayerHealth si aún no existe
-                health.SetCurrent(s.playerHealth);  // agrega SetCurrent
-                _bus?.Publish(new HealthChanged(health.Current, health.Max));
+                playerConfig.SetMaxHealth(s.playerMaxHealth);
+                playerConfig.SetCurrentHealth(s.playerHealth);
+                _bus?.Publish(new HealthChanged(s.playerHealth, s.playerMaxHealth));
             }
 
             //FLASHLIGHT
-            if (flashlight)
+            if (flashlightConfig)
             {
-                flashlight.SetBattery01(s.flashlightBattery01);
+                flashlightConfig.SetBattery(s.flashlightBattery01);
                 _bus?.Publish(new BatteryChanged(s.flashlightBattery01));
             }
 

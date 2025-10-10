@@ -8,9 +8,24 @@ namespace Project.Data
     )]
     public class FlashlightConfig : ScriptableObject
     {
+
+        #region Vars
         [Header("Flashlight")]
-        public float intensity = 1200f;       // lúmenes o unidad relativa
-        public float angle = 45f;             // ángulo del cono
-        public float drainPerSecond = 0.05f;  // consumo de batería por segundo
+        [SerializeField, Range(0f, 1f)] private float battery = 1f; // 0..1
+        [SerializeField] private float drainPerSecond = 0.05f;     // puedes reemplazar por SO luego
+        [SerializeField] private bool isOn = false;
+
+        #endregion
+
+        #region FlashlightMethods
+        public float GetBattery() => battery;
+        public void SetBattery(float t) => battery = t;
+        public float GetDrainPerSecond() => drainPerSecond;
+
+
+
+        public bool setIsOn(bool t) => isOn = t;    
+        public bool IsOn() => isOn;
+        #endregion
     }
 }

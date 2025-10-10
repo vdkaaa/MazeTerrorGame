@@ -495,9 +495,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1527005253275085079, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: playerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f171e1ca9f32141a0bcee28a279e40, type: 2}
+    - target: {fileID: 1527005253275085079, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
       propertyPath: eventBusSource
       value: 
       objectReference: {fileID: 1200928729}
+    - target: {fileID: 1894225680730380591, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: playerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f171e1ca9f32141a0bcee28a279e40, type: 2}
     - target: {fileID: 1894225680730380591, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
       propertyPath: eventBusSource
       value: 
@@ -510,6 +518,10 @@ PrefabInstance:
       propertyPath: eventBusSource
       value: 
       objectReference: {fileID: 1200928729}
+    - target: {fileID: 2426323825543917457, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: flashlightConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 30b85e3795a8c354888839f3799df538, type: 2}
     - target: {fileID: 2571724619830053885, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
       propertyPath: eventBusSource
       value: 
@@ -554,10 +566,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4072881179124238900, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: playerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f171e1ca9f32141a0bcee28a279e40, type: 2}
+    - target: {fileID: 4072881179124238900, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: eventBusSource
+      value: 
+      objectReference: {fileID: 1200928729}
+    - target: {fileID: 4295244858641013273, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: playerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f171e1ca9f32141a0bcee28a279e40, type: 2}
     - target: {fileID: 4295244858641013273, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
       propertyPath: eventBusSource
       value: 
       objectReference: {fileID: 1200928729}
+    - target: {fileID: 4295244858641013273, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: flashlightConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 30b85e3795a8c354888839f3799df538, type: 2}
+    - target: {fileID: 5521844088184206060, guid: da3222906a3f18d4aa63e524f9ad99c0, type: 3}
+      propertyPath: playerConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: 19f171e1ca9f32141a0bcee28a279e40, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

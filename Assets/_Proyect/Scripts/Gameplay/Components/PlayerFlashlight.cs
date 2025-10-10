@@ -1,5 +1,6 @@
 using UnityEngine;
-using Project.Core.Events.DTOs; // BatteryChanged
+using Project.Core.Events.DTOs;
+using Project.Data; // BatteryChanged
 
 namespace Project.Gameplay.Player
 {
@@ -10,38 +11,38 @@ namespace Project.Gameplay.Player
         [SerializeField] private MonoBehaviour eventBusSource;  // Arrastra EventBus de escena
 
         [Header("Config")]
-        [SerializeField, Range(0f, 1f)] private float battery = 1f; // 0..1
-        [SerializeField] private float drainPerSecond = 0.05f;     // puedes reemplazar por SO luego
-        [SerializeField] private bool isOn = false;
+        [SerializeField] private FlashlightConfig flashlightConfig;
+
 
         private IEventBus _bus;
 
         private void Awake()
         {
-            if (lightComp) lightComp.enabled = isOn;
+            if (lightComp) lightComp.enabled = flashlightConfig.IsOn();
             _bus = eventBusSource as IEventBus;
             PublishBattery();
         }
 
         private void Update()
         {
-            if (!isOn) return;
-            if (battery <= 0f) { SetOn(false); return; }
+            if (!flashlightConfig.IsOn()) return;
+            if (flashlightConfig.GetBattery() <= 0f) { SetOn(false); return; }
 
-            battery = Mathf.Max(0f, battery - drainPerSecond * Time.deltaTime);
+            flashlightConfig.SetBattery(Mathf.Max(0f, flashlightConfig.GetBattery() - flashlightConfig.GetDrainPerSecond() * Time.deltaTime));
             PublishBattery();
         }
 
-        public void Toggle() => SetOn(!isOn);
+        public void Toggle() => SetOn(!flashlightConfig.IsOn());
 
         public void SetOn(bool on)
         {
-            isOn = on && battery > 0f;
+            flashlightConfig.setIsOn(on);
+            bool isOn = on && flashlightConfig.GetBattery() > 0f;
             if (lightComp) lightComp.enabled = isOn;
-            // podrías publicar un evento FlashlightToggled si quieres
+            // podrï¿½as publicar un evento FlashlightToggled si quieres
         }
 
-        public float BatteryNormalized() => Mathf.Clamp01(battery);
+        public float BatteryNormalized() => Mathf.Clamp01(flashlightConfig.GetBattery());
 
         private void PublishBattery()
         {
@@ -51,14 +52,16 @@ namespace Project.Gameplay.Player
         // Helpers dev
         public void AddBattery(float amount01)
         {
-            battery = Mathf.Clamp01(battery + amount01);
+            flashlightConfig.SetBattery(flashlightConfig.GetBattery() + amount01);
+            Mathf.Clamp01(flashlightConfig.GetBattery() + amount01);
             PublishBattery();
         }
 
 
         public void SetBattery01(float t)
         {
-            battery = Mathf.Clamp01(t);
+            flashlightConfig.SetBattery(t);
+            Mathf.Clamp01(t);
             PublishBattery();
         }
 

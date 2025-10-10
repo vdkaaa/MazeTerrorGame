@@ -302,6 +302,7 @@ A 3D psychological horror game built with **Unity 6 (URP)**.
   - Triggering traps plays screamer image/audio and optionally blocks movement briefly.
   - No console errors; interactions tested end-to-end.
 
+
 # 🧩 Day 8 – Definition of Done (October 7)
 
 ### 🎯 Context
@@ -364,4 +365,37 @@ The result was a clear list of technical improvements, configuration clean-ups, 
 ### 🔍 Summary
 Day 8 focused on **structural refactoring and system alignment**.  
 The next development session will revolve around implementing the new configs and polishing the player core systems to achieve cleaner data management and more predictable gameplay flow.
+## ✅ Day 9 – Definition of Done
+
+### 🏗️ Architectural Refactor: Data-Driven Systems
+
+- **Player & Flashlight Configs (SOs)**:
+  - Refactored `PlayerConfig` and `FlashlightConfig` to expose all relevant variables to the Inspector using `[SerializeField]`.
+  - Maintained encapsulation by keeping fields `private`.
+
+- **Decoupled Save/Load System**:
+  - `PlayerStateAdapter` no longer holds direct references to `PlayerHealth` or `PlayerFlashlight`.
+  - `Read()` now gets data directly from `PlayerConfig` and `FlashlightConfig`.
+  - `Apply()` now sets data on the SOs and publishes events (`HealthChanged`, `BatteryChanged`) for the HUD to consume.
+
+- **Modular Item & Inventory System**:
+  - Created abstract `ItemData` ScriptableObject, allowing each item to define its own `Use(GameObject user)` logic.
+  - Implemented `ItemDatabase` to act as a central registry for all possible items in the game.
+  - `PlayerInventory` now uses the `ItemDatabase` to execute item effects, removing the need for hardcoded `if/else` logic.
+
+- **Event-Driven Inventory**:
+  - Created `InventoryChanged` event DTO.
+  - `PlayerInventory` now publishes this event whenever an item is added, used, or loaded, allowing the UI to react dynamically.
+  - DTOs for all events (`HealthChanged`, `BatteryChanged`, etc.) were hardened by making their fields `readonly` to ensure immutability.
+
+- **Decoupled Interaction Logic**:
+  - `LockedDoor` no longer depends on `PlayerInventory`.
+  - It now gets the `PlayerConfig` from the `interactor`'s `PlayerMovement` component to check for keys (`HasItem`).
+  - This makes the door system more robust and independent of the inventory's implementation details.
+
+- **Validation**:
+  - Player state (health, battery, position) saves and loads correctly using the new SO-driven approach.
+  - The `LockedDoor` correctly checks the player's inventory via `PlayerConfig` and unlocks.
+  - The new item system architecture is in place, ready for creating new items like health potions or other keys.
+  - The project's architecture is now significantly more modular, scalable, and aligned with best practices for data management in Unity.
 

@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 using Project.Core.Events.DTOs;
+using Project.Data;
 using Project.Gameplay.Interaction;
 
 namespace Project.Gameplay.Player
 {
     public class PlayerInteractor : MonoBehaviour
     {
-        [Header("Raycast")]
+        [Header("ConfigRaycast")]
+        [SerializeField] private PlayerConfig playerConfig;
         [SerializeField] private Transform rayOrigin;        // arrastra MainCamera
-        [SerializeField] private float range = 2.5f;
-        [SerializeField] private LayerMask interactableMask; // solo Layer Interactable
-        [SerializeField] private float promptCooldown = 0.2f;
 
         [Header("Events")]
         [SerializeField] private MonoBehaviour eventBusSource; // arrastra EventBus
@@ -41,7 +40,7 @@ namespace Project.Gameplay.Player
 
             if (!rayOrigin) return;
 
-            if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out var hit, range, interactableMask))
+            if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out var hit, playerConfig.GetRange(), playerConfig.GetInteractableMask()))
             {
                 _hover = hit.collider.GetComponentInParent<IInteractable>();
             }
@@ -59,7 +58,7 @@ namespace Project.Gameplay.Player
 
                 if (targetChanged || textChanged)
                 {
-                    _nextPromptTime = Time.time + promptCooldown;
+                    _nextPromptTime = Time.time + playerConfig.GetPromptCooldown();
                     _lastHover = _hover;
                     _lastPromptText = promptText;
                     _bus?.Publish(new ShowPrompt(promptText, 1f));

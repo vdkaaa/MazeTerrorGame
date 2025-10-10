@@ -1,21 +1,23 @@
 using UnityEngine;
 using Project.Core.Events.DTOs;
+using Project.Data; 
 
 namespace Project.Gameplay.Player
 {
     public class PlayerHealth : MonoBehaviour, IDamageable
     {
-        [SerializeField] private float maxHealth = 100f;
-        [SerializeField] private float currentHealth = 100f;
+
+        [Header("Player Config SO")]
+        [SerializeField] private PlayerConfig playerConfig;
+
         [SerializeField] private MonoBehaviour eventBusSource;
         private IEventBus _bus;
-        public float Max => maxHealth;
-        public float Current => currentHealth;
 
-        public void SetMax(float v) { maxHealth = Mathf.Max(1f, v); }
+
+        public void SetMax(float v) { playerConfig.SetMaxHealth(Mathf.Max(1f, v)); } 
         public void SetCurrent(float v)
         {
-            currentHealth = Mathf.Clamp(v, 0f, maxHealth);
+            playerConfig.SetCurrentHealth(Mathf.Clamp(v, 0f, playerConfig.GetMaxHealth()));
             Publish(); //Vigilar si esto causa algun problema
         }
 
@@ -25,22 +27,34 @@ namespace Project.Gameplay.Player
             Publish();
         }
 
-        public bool IsDead => currentHealth <= 0f;
+        public bool IsDead => playerConfig.GetCurrentHealth() <= 0f;
 
         public void TakeDamage(float amount)
         {
             if (IsDead) return;
-            currentHealth = Mathf.Max(0f, currentHealth - Mathf.Abs(amount));
+            playerConfig.SetCurrentHealth(playerConfig.GetCurrentHealth() - Mathf.Abs(amount));
             Publish();
         }
+
+        public void Damage(float amount)
+        {
+            if (IsDead) return;
+            playerConfig.SetCurrentHealth(Mathf.Max(0f, playerConfig.GetCurrentHealth() - Mathf.Abs(amount)));
+            Publish();
+        }
+
+
+
+
+
 
         public void Heal(float amount)
         {
             if (IsDead) return;
-            currentHealth = Mathf.Min(maxHealth, currentHealth + Mathf.Abs(amount));
+            playerConfig.SetCurrentHealth(Mathf.Min(playerConfig.GetMaxHealth(), playerConfig.GetCurrentHealth() + Mathf.Abs(amount)));
             Publish();
         }
 
-        private void Publish() => _bus?.Publish(new HealthChanged(currentHealth, maxHealth));
+        private void Publish() => _bus?.Publish(new HealthChanged(playerConfig.GetCurrentHealth(), playerConfig.GetMaxHealth()));
     }
 }
