@@ -1,6 +1,11 @@
 
+using UnityEngine;
+
 public interface IInputService 
 {
-    float GetAxis(string axisName); 
-    bool GetButtonDown(string buttonName);
+    Vector2 MoveInput { get; }
+    Vector2 LookInput { get; }
+    bool IsRunning { get; }
+
+    bool ToggleFlashlightPressed { get; }
 }

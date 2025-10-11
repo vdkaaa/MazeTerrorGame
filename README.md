@@ -399,3 +399,28 @@ The next development session will revolve around implementing the new configs an
   - The new item system architecture is in place, ready for creating new items like health potions or other keys.
   - The project's architecture is now significantly more modular, scalable, and aligned with best practices for data management in Unity.
 
+
+  ## ✅ Day 10 – Definition of Done + +### 🧹 Code Refinement & Decoupling + +- ScreamerController Refactor:
+
+  Removed direct reference to the main HUD's CanvasGroup.
+  Now uses FindFirstObjectByType<HUDController>() to find the HUD controller and call its ShowHUD()/HideHUD() methods.
+  This change completely decouples the screamer logic from the HUD implementation, making both systems more modular and robust.
+  +- Input System Integration:
+
+  PlayerInputController was updated to prepare for a proper Service Locator or Dependency Injection pattern.
+  The direct instantiation new InputService() is now marked as a temporary step, aligning with best practices for service management.
+  +--- + +### 🔋 Gameplay: Consumable Items + +- Battery Item:
+
+  Created BatteryItem.cs, a new ItemData ScriptableObject that represents a consumable battery.
+  Implemented the Use() method to restore a fixed amount of energy to the PlayerFlashlight.
+  The item returns true upon use, ensuring it is consumed from the player's inventory.
+  +- Battery Pickup:
+
+  Created BatteryPickup.cs and a corresponding prefab.
+  When the player interacts with it, the battery item is added to PlayerInventory.
+  The player can then "use" the battery from a (future) inventory UI to recharge the flashlight.
+  +- Validation:
+
+  Picking up a battery adds it to the inventory.
+  Using the battery correctly recharges the flashlight and removes the item from the inventory.
+  The screamer continues to function correctly, now using a more robust, decoupled method to interact with the HUD.

@@ -15,5 +15,5 @@ EditorBuildSettings:
     path: Assets/_Proyect/Scenes/Labyrinth_Prototype.unity
     guid: 6abc1945fe4a9ed40b57a6b287f5e92a
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 11b89252e65da8e438844904c408deba, type: 3}
   m_UseUCBPForAssetBundles: 0

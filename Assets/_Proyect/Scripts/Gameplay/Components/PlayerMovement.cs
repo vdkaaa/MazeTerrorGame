@@ -1,4 +1,4 @@
-﻿using Project.Data;
+﻿﻿using Project.Data;
 using UnityEngine;
 
 namespace Project.Gameplay.Player
@@ -35,7 +35,7 @@ namespace Project.Gameplay.Player
         public void SetLookInput(float dx, float dy) => _look = new Vector2(dx, dy);
         public void SetRun(bool isRunning) => _isRunning = isRunning;
 
-        // Método para exponer la configuración
+        // Método para exponer la configuración a otros componentes (ej. LockedDoor)
         public PlayerConfig GetPlayerConfig() => playerConfig;
 
         private void Update()

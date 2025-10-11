@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 1527005253275085079}
   - component: {fileID: 3446094181775419882}
   - component: {fileID: 4295244858641013273}
-  - component: {fileID: 2571724619830053885}
   m_Layer: 9
   m_Name: PlayerRoot
   m_TagString: Player
@@ -102,11 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92352764ae1f31844a9ff455a1b9fef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3.5
-  runSpeed: 6
-  gravity: -9.81
-  mouseSensitivity: 1
-  pitchClamp: 85
+  playerConfig: {fileID: 0}
 --- !u!114 &1894225680730380591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,12 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19969312aee407541872893a211e7c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerConfig: {fileID: 0}
   rayOrigin: {fileID: 5534047917724697863}
-  range: 2
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 64
-  promptCooldown: 0.2
   eventBusSource: {fileID: 0}
 --- !u!114 &4072881179124238900
 MonoBehaviour:
@@ -138,6 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5ad8f63c8107441a63ce285b1640a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemDatabase: {fileID: 0}
+  playerConfig: {fileID: 0}
+  eventBusSource: {fileID: 0}
 --- !u!114 &2426323825543917457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,9 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightComp: {fileID: 3026025442950645453}
   eventBusSource: {fileID: 0}
-  battery: 1
-  drainPerSecond: 0.01
-  isOn: 0
+  flashlightConfig: {fileID: 0}
 --- !u!114 &1527005253275085079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,8 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da3c53e425d3d2448db89c5a107e3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
+  playerConfig: {fileID: 0}
   eventBusSource: {fileID: 0}
 --- !u!114 &3446094181775419882
 MonoBehaviour:
@@ -183,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 5521844088184206060}
-  lookMultiplier: 1
+  flashlight: {fileID: 0}
 --- !u!114 &4295244858641013273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,25 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3748550fca4dc64088c6fdbd7732c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerConfig: {fileID: 0}
+  flashlightConfig: {fileID: 0}
   playerRoot: {fileID: 3014895128288883794}
-  eventBusSource: {fileID: 0}
---- !u!114 &2571724619830053885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357740264714836841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdeb2a440ddc4df43b716ac60a175f01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  requiredHold: 2
-  inspectableMask:
-    serializedVersion: 2
-    m_Bits: 64
-  maxDistance: 4
   eventBusSource: {fileID: 0}
 --- !u!1 &4230366138257868662
 GameObject:

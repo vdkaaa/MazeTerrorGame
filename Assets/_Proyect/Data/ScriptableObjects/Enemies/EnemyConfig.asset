@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54683e96e7a404c4ebf0a9707325347b, type: 3}
-  m_Name: FlashlightConfig_Default
+  m_Script: {fileID: 11500000, guid: 24e495c450726e943b078598cd048c2b, type: 3}
+  m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  battery: 0.4718512
-  drainPerSecond: 0.01
-  isOn: 0
+  patrolSpeed: 2.2
+  chaseSpeed: 3.6
+  stoppingDistance: 1.2
+  _loseTimer: 1
+  loseTargetDelay: 2
+  damage: 10
+  attackCooldown: 1.5

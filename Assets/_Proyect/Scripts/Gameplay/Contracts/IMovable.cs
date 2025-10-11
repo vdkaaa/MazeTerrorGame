@@ -4,5 +4,6 @@ namespace Project.Gameplay.Player
     {
         void SetMoveInput(float x, float y); // eje X,Y (WASD)
         void SetLookInput(float dx, float dy); // delta mouse
+        void SetRun(bool isRunning);
     }
 }

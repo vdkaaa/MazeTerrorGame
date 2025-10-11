@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Project.Data;
+
 
 namespace Project.Gameplay.Enemy
 {
@@ -7,38 +9,25 @@ namespace Project.Gameplay.Enemy
     public class EnemyBase : MonoBehaviour
     {
         [Header("Refs")]
-        [SerializeField] private Transform target; // Player transform (auto-discover if null)
-        public Transform Target => target;
-
-        [Header("Movement")]
-        public float patrolSpeed = 2.2f;
-        public float chaseSpeed = 3.6f;
-        public float stoppingDistance = 1.2f;
-
-        [Header("Detection")]
-        public float loseTargetDelay = 2.0f; // time to return to patrol after losing player
-
-        [Header("Combat")]
-        private float damage = 10f;
-        private float attackCooldown = 1.5f;
-
+        [SerializeField] private EnemyConfig config; 
         public NavMeshAgent Agent { get; private set; }
         public EnemyState CurrentState { get; private set; } = EnemyState.Idle;
-        public float Damage { get => damage; }
-        public float AttackCooldown { get => attackCooldown; }
+        public Transform Target { get; private set; }
 
-        float _loseTimer;
+        private float _loseTimer;
 
+        public EnemyConfig GetConfig() => config;
+        
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
             Agent.updateRotation = true;
             Agent.updateUpAxis = true;
 
-            if (target == null)
+            if (Target == null)
             {
                 var ph = Object.FindFirstObjectByType<Project.Gameplay.Player.PlayerHealth>();
-                if (ph) target = ph.transform;
+                if (ph) Target = ph.transform;
             }
         }
 
@@ -49,10 +38,10 @@ namespace Project.Gameplay.Enemy
             if (CurrentState == s) return;
             CurrentState = s;
             // speed per state
-            Agent.speed = (s == EnemyState.Chase) ? chaseSpeed : patrolSpeed;
+            Agent.speed = (s == EnemyState.Chase) ? config.GetChaseSpeed() : config.GetPatrolSpeed();
         }
 
-        public void ResetLoseTimer() => _loseTimer = loseTargetDelay;
+        public void ResetLoseTimer() => _loseTimer = config.GetLoseTargetDelay();
 
         public bool TickLoseTimer(float dt)
         {

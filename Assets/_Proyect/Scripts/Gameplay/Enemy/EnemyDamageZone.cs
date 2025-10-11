@@ -1,4 +1,6 @@
 using UnityEngine;
+using Project.Core.Events.DTOs;
+using Project.Data;
 
 namespace Project.Gameplay.Enemy
 {
@@ -6,7 +8,10 @@ namespace Project.Gameplay.Enemy
     public class EnemyDamageZone : MonoBehaviour
     {
         [SerializeField] private EnemyBase enemy;   // arrastra el EnemyBase del root
-        [SerializeField] private float firstHitDelay = 0.5f; // pequeño delay inicial
+        [SerializeField] private float firstHitDelay = 0.5f; // pequeï¿½o delay inicial
+
+        [Header("Refs")]
+        [SerializeField] private EnemyConfig config;
 
         private float _cooldownTimer;
 
@@ -30,9 +35,9 @@ namespace Project.Gameplay.Enemy
             var ph = other.GetComponentInParent<Project.Gameplay.Player.PlayerHealth>();
             if (ph != null)
             {
-                ph.TakeDamage(enemy.Damage);                  // PlayerHealth publicará el evento al HUD
-                _cooldownTimer = enemy.AttackCooldown;       // cooldown por golpe
-                                                             // al aplicar daño:
+                ph.TakeDamage(config.GetDamage());                  // PlayerHealth publicarï¿½ el evento al HUD
+                _cooldownTimer = config.GetAttackCooldown();       // cooldown por golpe
+                                                             // al aplicar daï¿½o:
                 var bus = FindFirstObjectByType<EventBus>() as IEventBus;
                 bus?.Publish(new Project.Core.Events.DTOs.ShowPrompt("You were hit!", 0.8f));
 

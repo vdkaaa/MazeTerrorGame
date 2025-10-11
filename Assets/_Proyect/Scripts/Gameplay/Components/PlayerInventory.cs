@@ -19,6 +19,12 @@ namespace Project.Gameplay.Player
         private void Awake()
         {
             _bus = eventBusSource as IEventBus;
+            if (itemDatabase == null)
+            {
+                Debug.LogError("¡Error Crítico! El ItemDatabase no ha sido asignado en el Inspector.", this.gameObject);
+                // Opcional: Desactivar el componente para evitar más errores.
+                // this.enabled = false; 
+            }
         }
 
         public bool AddItem(string id, int amount = 1)

@@ -48,7 +48,7 @@ namespace Project.Gameplay.Enemy
 
         void DoChase()
         {
-            _base.Agent.stoppingDistance = _base.stoppingDistance;
+            _base.Agent.stoppingDistance = _base.GetConfig().GetStoppingDistance();
             _base.Agent.SetDestination(_base.Target.position);
         }
     }
