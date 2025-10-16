@@ -424,3 +424,29 @@ The next development session will revolve around implementing the new configs an
   Picking up a battery adds it to the inventory.
   Using the battery correctly recharges the flashlight and removes the item from the inventory.
   The screamer continues to function correctly, now using a more robust, decoupled method to interact with the HUD.
+
+
+
+## 🧠 Day 11 – Ambient & Clues (Lighting + Symbol Setup)
+
+**Goal:** Establish the first mysterious atmosphere with baked lighting and the 3 main clue symbols that react to light and sound.
+
+### 🎯 Deliverables
+- [x] **Scene Setup:** Organized hierarchy for `Labyrinth_VSlice` with Environment, Anchors, and Lighting groups.  
+- [x] **Baked Global Illumination:** All static geometry marked and baked with a single Directional Light (URP-friendly).  
+- [x] **Playable Lighting:** Flashlight as the only dynamic light source (Spot Light, ~8 m range).  
+- [x] **3 Hidden Symbols:**  
+  - Dark material (URP/Lit) visible only when illuminated.  
+  - Positioned in different corridors to encourage exploration.  
+  - Slight surface detail or normal map to catch the flashlight.  
+- [x] **3D Audio Hints:**  
+  - Subtle looping hum for each symbol.  
+  - Spatialized (full 3D blend), low volume (0.05–0.1), range ≈ 10 m.  
+- [x] **Battery Pickup (optional):** Placed in a side path as a first reward.  
+- [x] **Lighting Build Test:** Scene baked successfully, smooth shadows, no heavy post-process.  
+
+### ✅ Definition of Done
+- The environment is fully readable with baked light only.  
+- Symbols “reveal” naturally under flashlight illumination.  
+- Audio hints can be located directionally by the player.  
+- Scene runs smoothly in-editor and ready for WebGL test build.  
