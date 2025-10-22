@@ -450,3 +450,19 @@ The next development session will revolve around implementing the new configs an
 - Symbols “reveal” naturally under flashlight illumination.  
 - Audio hints can be located directionally by the player.  
 - Scene runs smoothly in-editor and ready for WebGL test build.  
+
+
+
+Definition of Done (DoD) 🧠 Day 12 – Implement counter system for sound box puzzle
+
+ CounterSO correctly manages counter incrementing and resetting.
+
+ CounterSO triggers the OnTargetReached event when currentValue reaches targetValue.
+
+ SoundBoxInspectable interacts with CounterSO to increment the counter.
+
+ CounterPuzzleController subscribes to the event and correctly spawns the key when the puzzle is completed.
+
+ The system has been tested in the editor: interacting with 3 sound boxes successfully spawns the key at the designated location.
+
+ The code is clean, well-commented, and follows the project conventions.

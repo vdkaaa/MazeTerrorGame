@@ -12,11 +12,7 @@ namespace Project.Data
 
         [Header("Lectura para el juego")]
         [SerializeField] private int currentValue;
-
-
         public event Action OnTargetReached;
-
-
         public int CurrentValue => currentValue;
         public int TargetValue => targetValue;
 
@@ -24,22 +20,15 @@ namespace Project.Data
         {
             currentValue = initialValue;
         }
-
-
-
         public void Increment()
         {
             if (targetValue <= currentValue) return;
-
-
             currentValue++;
             Debug.Log(currentValue);
             if(currentValue >= targetValue)
             {
                 OnTargetReached?.Invoke();
             }
-    
-
         }
     }
 
