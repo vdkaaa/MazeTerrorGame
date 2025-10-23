@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e495c450726e943b078598cd048c2b, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  patrolSpeed: 2.2
-  chaseSpeed: 3.6
-  stoppingDistance: 1.2
-  _loseTimer: 1
+  patrolSpeed: 1.5
+  chaseSpeed: 2.5
+  stoppingDistance: 3
+  _loseTimer: 2
   loseTargetDelay: 2
   damage: 10
-  attackCooldown: 1.5
+  attackCooldown: 2

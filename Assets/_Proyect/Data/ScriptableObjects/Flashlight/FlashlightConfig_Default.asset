@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54683e96e7a404c4ebf0a9707325347b, type: 3}
   m_Name: FlashlightConfig_Default
   m_EditorClassIdentifier: 
-  battery: 0.4718512
+  battery: 1
   drainPerSecond: 0.01
-  isOn: 0
+  isOn: 1

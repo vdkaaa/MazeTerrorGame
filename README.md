@@ -466,3 +466,30 @@ Definition of Done (DoD) 🧠 Day 12 – Implement counter system for sound box 
  The system has been tested in the editor: interacting with 3 sound boxes successfully spawns the key at the designated location.
 
  The code is clean, well-commented, and follows the project conventions.
+
+## ✅ Day 13 – Definition of Done (Assets + Scene Integration)
+
+### Goal
+Import and integrate production assets into the Labyrinth scene and wire them to existing mechanics (puzzles, pickups, enemies, HUD).
+
+### DoD
+- [ ] Import new assets under Assets/Art/, Assets/Audio/, Assets/Prefabs/ with consistent naming and folders.
+- [ ] Create and save prefabs: SoundBoxInspectable, Key (pickup), BatteryPickup, EnemyPatroller variant, Environment props.
+- [ ] Prefabs reference correct ScriptableObjects (CounterSO, EnemyConfigSO, ItemData) and required components.
+- [ ] Place prefabs in Labyrinth_Prototype using anchors; bake NavMesh after placement.
+- [ ] Wire mechanics:
+  - SoundBoxInspectable increments CounterSO.
+  - CounterPuzzleController spawns Key prefab when target reached.
+  - BatteryPickup adds BatteryItem to PlayerInventory.
+  - EnemyPatroller uses EnemyPatrol + EnemyChaseFSM and valid NavMeshAgent settings.
+- [ ] UX/Audio/FX:
+  - Assign SFX and VFX to interactions (sound box, pickup, key spawn, enemy alert).
+  - HUD prompts display for pickups and enemy detection.
+- [ ] QA & Performance:
+  - Playthrough checks: interacting with 3 sound boxes spawns key; key pickup adds item and shows prompt; enemy detection shows HUD prompt; no console errors.
+  - Validate draw calls, audio levels, and lightmap correctness.
+- [ ] Documentation:
+  - Update README (this entry) with asset locations and short integration notes.
+  - Add one-line comments in prefabs/scripts where special setup is required.
+- [ ] Commit & branch:
+  - Changes committed on branch feature/day13-assets with descriptive message.

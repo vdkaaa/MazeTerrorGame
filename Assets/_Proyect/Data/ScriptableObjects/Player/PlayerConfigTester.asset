@@ -17,10 +17,10 @@ MonoBehaviour:
   gravity: -9.81
   mouseSensitivity: 0.1
   pitchClamp: 85
-  range: 2.5
+  range: 4
   interactableMask:
     serializedVersion: 2
     m_Bits: 64
   promptCooldown: 0.2
   maxHealth: 100
-  currentHealth: 20
+  currentHealth: 100
