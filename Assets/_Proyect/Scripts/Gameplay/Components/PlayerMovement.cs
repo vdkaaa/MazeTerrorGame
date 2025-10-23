@@ -1,4 +1,5 @@
-﻿﻿using Project.Data;
+﻿﻿using System;
+using Project.Data;
 using UnityEngine;
 
 namespace Project.Gameplay.Player
@@ -38,6 +39,9 @@ namespace Project.Gameplay.Player
         // Método para exponer la configuración a otros componentes (ej. LockedDoor)
         public PlayerConfig GetPlayerConfig() => playerConfig;
 
+        // Evento que notifica velocidad normalizada y si corre (bool)
+        public event Action<float, bool> OnMovementChanged;
+
         private void Update()
         {
             // Rotación horizontal del cuerpo (yaw)
@@ -60,6 +64,11 @@ namespace Project.Gameplay.Player
 
             Vector3 vel = dir * speed + Vector3.up * _verticalVelocity;
             _cc.Move(vel * Time.deltaTime);
+
+            // Notificar al sistema de animación: velocidad normalizada [0..1] y flag running
+            float baseRun = Mathf.Max(0.0001f, playerConfig.GetRunSpeed());
+            float speedNormalized = dir.magnitude * (speed / baseRun); // 0..1 aprox.
+            OnMovementChanged?.Invoke(speedNormalized, _isRunning);
         }
     }
 }
