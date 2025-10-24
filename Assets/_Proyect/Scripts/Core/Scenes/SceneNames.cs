@@ -5,4 +5,9 @@ public static class SceneNames
 {
     public const string MainMenu = "MainMenu";
     public const string LabyrinthPrototype = "Labyrinth_Prototype";
+    public const string InstructionScene = "InstructionScene";
+
+    public const string GameOverScene = "GameOverScene";
+    public const string WinScene = "WinScene";
+
 }

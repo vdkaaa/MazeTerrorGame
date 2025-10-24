@@ -28,11 +28,11 @@ namespace Project.Core.Services.Save
             if (!playerAdapter) playerAdapter = FindFirstObjectByType<PlayerStateAdapter>();
             _bus = eventBusSource as IEventBus;
 
-            // Carga el último slot usado (si existe)
-            _activeIdx = Mathf.Clamp(PlayerPrefs.GetInt(LAST_SLOT_KEY, 0), 0, slots.Length - 1);
+            // Carga el ï¿½ltimo slot usado (si existe)
+            //_activeIdx = Mathf.Clamp(PlayerPrefs.GetInt(LAST_SLOT_KEY, 0), 0, slots.Length - 1);
 
 
-            // al inicio (Awake), después de calcular _activeIdx:
+            // al inicio (Awake), despuï¿½s de calcular _activeIdx:
             Announce($"Active slot: {slots[_activeIdx]} (F1/F2/F3)");
             _bus?.Publish(new SaveSlotChanged(slots[_activeIdx]));
 
@@ -46,7 +46,7 @@ namespace Project.Core.Services.Save
         {
             if (_cooldown > 0f) { _cooldown -= Time.unscaledDeltaTime; return; }
 
-            // Selección de slot (F1/F2/F3)
+            // Selecciï¿½n de slot (F1/F2/F3)
             if (Input.GetKeyDown(KeyCode.F1)) SetActiveSlot(0);
             if (Input.GetKeyDown(KeyCode.F2)) SetActiveSlot(1);
             if (Input.GetKeyDown(KeyCode.F3)) SetActiveSlot(2);

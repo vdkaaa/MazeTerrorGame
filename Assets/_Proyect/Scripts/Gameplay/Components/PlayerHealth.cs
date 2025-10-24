@@ -1,6 +1,7 @@
 using UnityEngine;
 using Project.Core.Events.DTOs;
 using Project.Data; 
+using UnityEngine.SceneManagement;
 
 namespace Project.Gameplay.Player
 {
@@ -11,6 +12,7 @@ namespace Project.Gameplay.Player
         [SerializeField] private PlayerConfig playerConfig;
 
         [SerializeField] private MonoBehaviour eventBusSource;
+        private bool _isDead = false;
         private IEventBus _bus;
 
 
@@ -23,6 +25,11 @@ namespace Project.Gameplay.Player
 
         private void Awake()
         {
+            if (playerConfig)
+            {
+                playerConfig.Reset();
+            }
+
             _bus = eventBusSource as IEventBus;
             Publish();
         }
@@ -33,6 +40,9 @@ namespace Project.Gameplay.Player
         {
             if (IsDead) return;
             playerConfig.SetCurrentHealth(playerConfig.GetCurrentHealth() - Mathf.Abs(amount));
+
+            // ¡Aquí publicamos el nuevo evento para el sonido!
+            _bus?.Publish(new PlayerTookDamage());
             Publish();
         }
 
@@ -43,7 +53,16 @@ namespace Project.Gameplay.Player
             Publish();
         }
 
-
+        void Update()
+        {
+            if(IsDead)
+            {
+                // Aquí puedes manejar la lógica de muerte del jugador
+                // Por ejemplo, emitir un evento de muerte o reiniciar el nivel
+                SceneManager.LoadScene("GameOverScene"); // Carga la escena de Game Over
+                
+            }
+        }
 
 
 
@@ -56,5 +75,11 @@ namespace Project.Gameplay.Player
         }
 
         private void Publish() => _bus?.Publish(new HealthChanged(playerConfig.GetCurrentHealth(), playerConfig.GetMaxHealth()));
+
+        public void Revive()
+        {
+            _isDead = false;
+            SetCurrent(playerConfig.GetMaxHealth());
+        }
     }
 }

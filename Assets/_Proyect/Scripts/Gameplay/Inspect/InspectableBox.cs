@@ -12,22 +12,29 @@ namespace Project.Gameplay.Inspect
         [SerializeField] private Transform keySpawnPoint;
         [SerializeField] private MonoBehaviour eventBusSource;  // EventBus
         private IEventBus _bus;
+        [SerializeField] private GameObject hoverVisual; // NEW: child used as hover/outline
 
-
-        private void Awake() { _bus = eventBusSource as IEventBus; }
+        private void Awake() { _bus = eventBusSource as IEventBus; if (hoverVisual) hoverVisual.SetActive(false); }
 
         public string Prompt() => prompt;
 
         public void Interact(GameObject interactor)
         {
-            // Si el jugador presiona E 
             _bus?.Publish(new ShowPrompt("Something went wrong...", 1f));
-            // fire screamer
             var s = FindFirstObjectByType<Project.Gameplay.Inspect.ScreamerController>();
             s?.TriggerScreamer();
             Destroy(gameObject);
             Instantiate(keyPrefab, keySpawnPoint.position, keySpawnPoint.rotation);
-            // si ya revelado, permitir recoger etc. (no implementado aqu�)
+        }
+
+        public void SetHover(bool on)
+        {
+            if (hoverVisual) hoverVisual.SetActive(on);
+            else
+            {
+                // fallback: slightly scale visuals as simple feedback
+                if (visuals) visuals.transform.localScale = on ? Vector3.one * 1.05f : Vector3.one;
+            }
         }
 
         public void OnExamined(GameObject examiner)

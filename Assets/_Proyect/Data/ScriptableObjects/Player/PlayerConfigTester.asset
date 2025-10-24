@@ -23,4 +23,4 @@ MonoBehaviour:
     m_Bits: 64
   promptCooldown: 0.2
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 90

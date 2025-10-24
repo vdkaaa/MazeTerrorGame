@@ -60,7 +60,7 @@ namespace Project.Gameplay.Enemy
         bool HasLOS(Transform t)
         {
             if (!requireLineOfSight) return true;
-            var origin = eye ? eye.position : transform.position + Vector3.up * 3.6f;
+            var origin = eye ? eye.position : transform.position + Vector3.up * 5.6f;
             var dir = (t.position + Vector3.up * 1.0f) - origin;
             if (Physics.Raycast(origin, dir.normalized, out var hit, dir.magnitude))
                 return hit.transform.IsChildOf(t); // clear if first hit is player

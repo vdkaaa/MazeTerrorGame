@@ -23,7 +23,17 @@ namespace Project.Data
         public float GetDrainPerSecond() => drainPerSecond;
 
 
-
+        void OnEnable()
+        {
+            // OnEnable se llama solo cuando el asset se carga, no al iniciar la escena.
+            // Es mejor resetear explícitamente el estado al inicio del juego.
+            Reset();
+        }
+        public void Reset()
+        {
+            battery = 1f;
+            isOn = false;
+        }
         public bool setIsOn(bool t) => isOn = t;    
         public bool IsOn() => isOn;
         #endregion

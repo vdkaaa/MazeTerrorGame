@@ -36,6 +36,9 @@ namespace Project.Gameplay.Player
         public void SetLookInput(float dx, float dy) => _look = new Vector2(dx, dy);
         public void SetRun(bool isRunning) => _isRunning = isRunning;
 
+        // Método para que otros scripts consulten si está corriendo
+        public bool IsRunning() => _isRunning;
+
         // Método para exponer la configuración a otros componentes (ej. LockedDoor)
         public PlayerConfig GetPlayerConfig() => playerConfig;
 

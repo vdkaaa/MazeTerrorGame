@@ -18,6 +18,11 @@ namespace Project.Gameplay.Player
 
         private void Awake()
         {
+            if (flashlightConfig)
+            {
+                flashlightConfig.Reset();
+            }
+
             if (lightComp) lightComp.enabled = flashlightConfig.IsOn();
             _bus = eventBusSource as IEventBus;
             PublishBattery();

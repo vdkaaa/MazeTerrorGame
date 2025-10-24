@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolSpeed: 1.5
   chaseSpeed: 2.5
-  stoppingDistance: 3
+  stoppingDistance: 2
   _loseTimer: 2
   loseTargetDelay: 2
-  damage: 10
-  attackCooldown: 2
+  damage: 35
+  attackCooldown: 2.5

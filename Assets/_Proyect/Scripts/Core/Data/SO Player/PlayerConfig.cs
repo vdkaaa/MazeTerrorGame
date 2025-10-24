@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 namespace Project.Data
 {
     [CreateAssetMenu(
@@ -31,12 +32,22 @@ namespace Project.Data
 
         [Header("Inventory")]
         [SerializeField] private Dictionary<string, int> _items = new();
-        
-
-        #endregion    
 
 
+        #endregion
 
+        void OnEnable()
+        {
+            // OnEnable se llama solo cuando el asset se carga, no al iniciar la escena.
+            // Es mejor resetear explícitamente el estado al inicio del juego.
+            Reset();
+        }
+
+        public void Reset()
+        {
+            currentHealth = maxHealth;
+            _items.Clear();
+        }
 
         #region MovementMethods
         public float GetWalkSpeed() => walkSpeed;

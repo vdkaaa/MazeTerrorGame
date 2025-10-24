@@ -9,7 +9,7 @@ public class MainMenuPresenter : MonoBehaviour
 
     private void Awake()
     {
-        // Inversión de dependencias a nivel runtime (simple):
+        // Inversiï¿½n de dependencias a nivel runtime (simple):
         _loader = sceneLoader as ISceneLoader;
         if (_loader == null)
             Debug.LogError("[MainMenuPresenter] SceneLoader no asignado o no implementa ISceneLoader.");
@@ -31,8 +31,8 @@ public class MainMenuPresenter : MonoBehaviour
 
     private void HandlePlay()
     {
-        // Único lugar donde se decide qué escena cargar:
-        _loader?.Load(SceneNames.LabyrinthPrototype);
+        // ï¿½nico lugar donde se decide quï¿½ escena cargar:
+        _loader?.Load(SceneNames.InstructionScene);
     }
 
     private void HandleQuit()
