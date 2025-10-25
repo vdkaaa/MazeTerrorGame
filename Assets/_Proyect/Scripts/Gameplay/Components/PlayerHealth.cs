@@ -10,6 +10,7 @@ namespace Project.Gameplay.Player
 
         [Header("Player Config SO")]
         [SerializeField] private PlayerConfig playerConfig;
+        [SerializeField] private float _fallDeathYThreshold = -10f; // Altura por debajo de la cual el jugador muere
 
         [SerializeField] private MonoBehaviour eventBusSource;
         private bool _isDead = false;
@@ -55,6 +56,12 @@ namespace Project.Gameplay.Player
 
         void Update()
         {
+            // Comprobar si el jugador ha caído por debajo del umbral de muerte
+            if (transform.position.y < _fallDeathYThreshold && !IsDead)
+            {
+                TakeDamage(playerConfig.GetMaxHealth() * 2); // Aseguramos que el jugador muera
+            }
+
             if(IsDead)
             {
                 // Aquí puedes manejar la lógica de muerte del jugador
